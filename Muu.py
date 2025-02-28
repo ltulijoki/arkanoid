@@ -1,4 +1,5 @@
 from json import dumps, loads
+from os.path import exists
 from tkinter import Button, Canvas, Entry, Frame, Label, Text, Tk, Toplevel, messagebox, ttk
 from const import PALAUTTEET_TIEDOSTO
 
@@ -261,8 +262,11 @@ numeron\nkohdassa {kysymys['kysymys']}!",
         self.palauteikkuna.mainloop()
 
     def laheta_palaute(self):
-        with open(PALAUTTEET_TIEDOSTO) as tied:
-            palautteet = loads(tied.read())
+        if exists(PALAUTTEET_TIEDOSTO):
+            with open(PALAUTTEET_TIEDOSTO) as tied:
+                palautteet = loads(tied.read())
+        else:
+            palautteet = []
         uusi = {"Sanallinen palaute": self.sanallinen}
         for kysymys in self.kysymykset:
             uusi_kysymys = {"numero": kysymys["numero"]}
